@@ -122,13 +122,6 @@ export default function Header() {
                 className="text-sm font-medium hover:text-primary p-2 rounded-md transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Pricing
-              </Link>
-              <Link 
-                href="#" 
-                className="text-sm font-medium hover:text-primary p-2 rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
                 Blog
               </Link>
               <Link 

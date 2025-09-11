@@ -123,14 +123,14 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
 
       // Update chat with formatted message
       setMessages(prev => [...prev, {
-        role: 'assistant',
+        role: 'assistant' as const,
         content: 'Content enhanced with professional formatting and ATS optimization. Review the changes above.'
       }]);
 
     } catch (error) {
       console.error('Enhancement failed:', error);
       setMessages(prev => [...prev, {
-        role: 'assistant',
+        role: 'assistant' as const,
         content: '❌ Sorry, I encountered an error. Please try again.'
       }]);
     } finally {
@@ -196,7 +196,7 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
 
-    const userMessage = { role: "user", content: newMessage };
+    const userMessage = { role: "user" as const, content: newMessage };
     setMessages(prev => [...prev, userMessage]);
     setNewMessage("");
 
@@ -229,12 +229,12 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
 
       setMessages(prev => [
         ...prev,
-        { role: "assistant", content: aiResponse }
+        { role: "assistant" as const, content: aiResponse }
       ]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, {
-        role: "assistant",
+        role: "assistant" as const,
         content: "I apologize, but I encountered an error. Please try again."
       }]);
     }

@@ -11,10 +11,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/builder/page": [
+    "/analyzer/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/builder/page.js"
+      "static/chunks/app/analyzer/loading.js"
+    ],
+    "/analyzer/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/analyzer/page.js"
     ]
   }
 }

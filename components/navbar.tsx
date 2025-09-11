@@ -77,12 +77,6 @@ export default function Navbar() {
               >
                 History
               </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
-              >
-                Pricing
-              </Link>
             </nav>
 
             <div className="hidden md:flex items-center space-x-4">
@@ -137,13 +131,6 @@ export default function Navbar() {
                   <History className="mr-2 h-4 w-4" />
                   History
                 </div>
-              </Link>
-              <Link
-                href="#"
-                className="block text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Pricing
               </Link>
               <div className="pt-4 border-t border-border flex flex-col space-y-4">
                 {user && <span className="text-muted-foreground">{user.email}</span>}
