@@ -341,7 +341,6 @@ export default function Home() {
                 <CoverLetterGenerator 
                   resumeData={file}
                   jobDescription={jobDescription}
-                  aiModel={genAI.current}
                 />
               </TabsContent>
               

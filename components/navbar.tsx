@@ -60,7 +60,7 @@ export default function Navbar() {
               </Link>
               
               <Link
-                href="/ai-analyzer"
+                href="/analyzer"
                 className="text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
               >
                 Resume Analyzer

@@ -69,7 +69,7 @@ export default function ProfilePage() {
                       <FileText className="h-4 w-4" /> 5 Resumes Created
                     </Button>
                     <Button variant="outline" size="sm" className="gap-2">
-                      <History className="h-4 w-4" /> Member since {new Date(user.metadata.creationTime).toLocaleDateString()}
+                      <History className="h-4 w-4" /> Member since {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'Unknown'}
                     </Button>
                   </div>
                 </div>

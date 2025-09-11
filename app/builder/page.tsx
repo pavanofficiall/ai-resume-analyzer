@@ -39,44 +39,7 @@ import Link from "next/link"
 import { useSearchParams } from 'next/navigation'
 
 import { generatePDF } from "@/lib/pdfGenerator";
-
-interface ResumeData {
-  personalInfo: {
-    name: string
-    email: string
-    phone: string
-    location: string
-    linkedin: string
-    website: string
-  }
-  summary: string
-  experience: Array<{
-    id: string
-    title: string
-    company: string
-    location: string
-    startDate: string
-    endDate: string
-    current: boolean
-    description: string
-  }>
-  education: Array<{
-    id: string
-    degree: string
-    institution: string
-    location: string
-    graduationDate: string
-    description: string
-  }>
-  skills: string[]
-  projects: Array<{
-    id: string
-    title: string
-    description: string
-    technologies: string
-    link: string
-  }>
-}
+import { ResumeData } from "@/lib/types";
 
 export default function ResumeBuilder() {
   const searchParams = useSearchParams()
@@ -84,7 +47,7 @@ export default function ResumeBuilder() {
 
   const [activeTemplate, setActiveTemplate] = useState("modern")
   const [previewMode, setPreviewMode] = useState(false)
-  const [resumeData, setResumeData] = useState(emptyResumeData)
+  const [resumeData, setResumeData] = useState<ResumeData>(emptyResumeData)
   const [aiSuggestions, setAiSuggestions] = useState<
     Array<{
       id: string
@@ -221,7 +184,7 @@ export default function ResumeBuilder() {
   }
 
   const handleSkillChange = (index: number, value: string) => {
-    const updatedSkills = [...resumeData.skills]
+    const updatedSkills: string[] = [...resumeData.skills]
     updatedSkills[index] = value
     setResumeData({
       ...resumeData,
@@ -542,24 +505,28 @@ export default function ResumeBuilder() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <AnimatedInput
                                     id={`exp-title-${exp.id}`}
+                                    name={`exp-title-${exp.id}`}
                                     label="Job Title"
                                     value={exp.title}
                                     onChange={(e) => updateExperience(exp.id, "title", e.target.value)}
                                   />
                                   <AnimatedInput
                                     id={`exp-company-${exp.id}`}
+                                    name={`exp-company-${exp.id}`}
                                     label="Company"
                                     value={exp.company}
                                     onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
                                   />
                                   <AnimatedInput
                                     id={`exp-location-${exp.id}`}
+                                    name={`exp-location-${exp.id}`}
                                     label="Location"
                                     value={exp.location}
                                     onChange={(e) => updateExperience(exp.id, "location", e.target.value)}
                                   />
                                   <AnimatedInput
                                     id={`exp-start-${exp.id}`}
+                                    name={`exp-start-${exp.id}`}
                                     label="Start Date"
                                     type="month"
                                     value={exp.startDate}
@@ -580,6 +547,7 @@ export default function ResumeBuilder() {
                                   {!exp.current && (
                                     <AnimatedInput
                                       id={`exp-end-${exp.id}`}
+                                      name={`exp-end-${exp.id}`}
                                       label="End Date"
                                       type="month"
                                       value={exp.endDate}

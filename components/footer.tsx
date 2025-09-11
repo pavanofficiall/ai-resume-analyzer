@@ -52,8 +52,6 @@ export default function Footer() {
                   Resume History
                 </Link>
               </li>
-              <li>
-              </li>
             </ul>
           </div>
         </div>

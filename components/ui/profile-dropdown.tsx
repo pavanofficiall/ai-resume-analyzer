@@ -12,8 +12,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Settings, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { logOut } from "@/lib/firebase"
+import type { User as FirebaseUser } from "firebase/auth"
 
-export function ProfileDropdown({ user }: { user: any }) {
+export function ProfileDropdown({ user }: { user: FirebaseUser }) {
   const router = useRouter()
   const initials = user.email ? user.email.charAt(0).toUpperCase() : "U"
 

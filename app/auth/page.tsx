@@ -20,6 +20,8 @@ import AnimatedInput from "@/components/animations/animated-input"
 export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -62,6 +64,9 @@ export default function AuthPage() {
                       label="Email"
                       type="email"
                       placeholder="your.email@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      name="email"
                       required
                     />
                     <div className="space-y-2">

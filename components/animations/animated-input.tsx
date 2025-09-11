@@ -12,6 +12,7 @@ interface AnimatedInputProps {
   name: string
   type?: string
   placeholder?: string
+  required?: boolean
 }
 
 export default function AnimatedInput({
@@ -22,6 +23,7 @@ export default function AnimatedInput({
   name,
   type = "text",
   placeholder,
+  required = false,
 }: AnimatedInputProps) {
   return (
     <div className="space-y-2">
@@ -37,6 +39,7 @@ export default function AnimatedInput({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          required={required}
           className="w-full"
         />
       </motion.div>

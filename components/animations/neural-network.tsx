@@ -15,7 +15,7 @@ interface Node {
 export default function NeuralNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const nodesRef = useRef<Node[]>([])
-  const requestRef = useRef<number>()
+  const requestRef = useRef<number | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current

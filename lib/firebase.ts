@@ -6,7 +6,8 @@ import {
     signOut,
     GoogleAuthProvider,
     signInWithPopup,
-    onAuthStateChanged
+    onAuthStateChanged,
+    User
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -40,6 +41,6 @@ export const googleSignIn = async () => {
 export const logOut = () => signOut(auth);
 
 // Export auth state observer
-export const onAuth = (callback: (user: any) => void) => {
+export const onAuth = (callback: (user: User | null) => void) => {
   return onAuthStateChanged(auth, callback);
 };

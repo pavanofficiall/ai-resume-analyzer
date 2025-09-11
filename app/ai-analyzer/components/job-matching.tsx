@@ -53,6 +53,7 @@ interface AnalysisResult {
 interface JobMatchingProps {
   result: AnalysisResult | null;
   jobDescription: string;
+  onOptimize?: () => void;
 }
 
 
@@ -413,7 +414,7 @@ export default function JobMatching({ result, jobDescription, onOptimize }: JobM
                   <div className="max-h-[200px] overflow-y-auto border rounded-md p-3">
                     <div className="flex flex-wrap gap-2">
                       {result.keywords.present.map((keyword, i) => (
-                        <Badge key={i} variant="success" className="whitespace-nowrap">
+                        <Badge key={i} variant="secondary" className="whitespace-nowrap">
                           {keyword}
                         </Badge>
                       ))}

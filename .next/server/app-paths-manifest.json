@@ -1,4 +1,13 @@
 {
+  "/api/enhance-resume/route": "app/api/enhance-resume/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/analyzer/page": "app/analyzer/page.js",
+  "/ai-analyzer/page": "app/ai-analyzer/page.js",
+  "/history/[id]/page": "app/history/[id]/page.js",
+  "/history/page": "app/history/page.js",
+  "/builder/page": "app/builder/page.js",
+  "/profile/page": "app/profile/page.js",
   "/page": "app/page.js",
-  "/analyzer/page": "app/analyzer/page.js"
+  "/resumes/page": "app/resumes/page.js",
+  "/auth/page": "app/auth/page.js"
 }

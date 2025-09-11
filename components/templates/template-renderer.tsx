@@ -1,10 +1,47 @@
-import { ResumeData } from "@/lib/types"
 import { motion, AnimatePresence } from "framer-motion"
 import ModernTemplate from "./modern"
 import ProfessionalTemplate from "./professional"
 import CreativeTemplate from "./creative"
 import MinimalTemplate from "./minimal"
 import { useState } from "react"
+
+interface ResumeData {
+  personalInfo: {
+    name: string
+    email: string
+    phone: string
+    location: string
+    linkedin: string
+    website: string
+  }
+  summary: string
+  experience: Array<{
+    id: string
+    title: string
+    company: string
+    location: string
+    startDate: string
+    endDate: string
+    current: boolean
+    description: string
+  }>
+  education: Array<{
+    id: string
+    degree: string
+    institution: string
+    location: string
+    graduationDate: string
+    description: string
+  }>
+  skills: string[]
+  projects: Array<{
+    id: string
+    title: string
+    description: string
+    technologies: string
+    link: string
+  }>
+}
 
 // TruncatedText component for handling long descriptions
 const TruncatedText = ({ text, maxLength = 150 }: { text: string; maxLength?: number }) => {
@@ -72,35 +109,18 @@ const TemplateWrapper = ({ children, template }: { children: React.ReactNode, te
 };
 
 export function TemplateRenderer({ template, data }: { template: string; data: ResumeData }) {
-  // Enhance the data with truncated text versions
-  const enhancedData = {
-    ...data,
-    experience: data.experience.map(exp => ({
-      ...exp,
-      truncatedDescription: <TruncatedText text={exp.description} />
-    })),
-    education: data.education.map(edu => ({
-      ...edu,
-      truncatedDescription: <TruncatedText text={edu.description} />
-    })),
-    projects: data.projects.map(proj => ({
-      ...proj,
-      truncatedDescription: <TruncatedText text={proj.description} />
-    }))
-  };
-
   const getTemplate = () => {
     switch (template) {
       case "modern":
-        return <ModernTemplate data={enhancedData} />
+        return <ModernTemplate data={data} />
       case "professional":
-        return <ProfessionalTemplate data={enhancedData} />
+        return <ProfessionalTemplate data={data} />
       case "creative":
-        return <CreativeTemplate data={enhancedData} />
+        return <CreativeTemplate data={data} />
       case "minimal":
-        return <MinimalTemplate data={enhancedData} />
+        return <MinimalTemplate data={data} />
       default:
-        return <ModernTemplate data={enhancedData} />
+        return <ModernTemplate data={data} />
     }
   }
 

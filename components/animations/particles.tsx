@@ -21,7 +21,7 @@ interface ParticlesProps {
 export default function Particles({ count = 50, className = "" }: ParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
-  const requestRef = useRef<number>()
+  const requestRef = useRef<number | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
