@@ -125,14 +125,14 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
       setMessages(prev => [...prev, {
         role: 'assistant' as const,
         content: 'Content enhanced with professional formatting and ATS optimization. Review the changes above.'
-      }]);
+      } as const]);
 
     } catch (error) {
       console.error('Enhancement failed:', error);
       setMessages(prev => [...prev, {
         role: 'assistant' as const,
         content: '❌ Sorry, I encountered an error. Please try again.'
-      }]);
+      } as const]);
     } finally {
       setIsGenerating(false);
     }
@@ -196,7 +196,7 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
 
-    const userMessage = { role: "user" as const, content: newMessage };
+    const userMessage: { role: "user"; content: string } = { role: "user", content: newMessage };
     setMessages(prev => [...prev, userMessage]);
     setNewMessage("");
 
@@ -229,14 +229,14 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
 
       setMessages(prev => [
         ...prev,
-        { role: "assistant" as const, content: aiResponse }
+        { role: "assistant" as const, content: aiResponse } as const
       ]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, {
         role: "assistant" as const,
         content: "I apologize, but I encountered an error. Please try again."
-      }]);
+      } as const]);
     }
   };
 
