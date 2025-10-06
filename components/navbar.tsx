@@ -58,6 +58,12 @@ export default function Navbar() {
               >
                 Home
               </Link>
+              <Link
+                href="/hrdashboard"
+                className="text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+              >
+                HR Dashboard
+              </Link>
               
               <Link
                 href="/analyzer"
