@@ -11,8 +11,30 @@ import TestimonialCard from "@/components/testimonial-card"
 import { motion } from "framer-motion"
 import TypingEffect from "@/components/animations/typing-effect"
 import Link from "next/link"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 export default function Home() {
+  const { user, role } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user && role) {
+      // Redirect authenticated users to their respective dashboards
+      if (role === "student") {
+        router.push("/analyzer")
+      } else if (role === "hr") {
+        router.push("/hrdashboard")
+      }
+    }
+  }, [user, role, router])
+
+  // Don't render anything for authenticated users while redirecting
+  if (user && role) {
+    return null
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

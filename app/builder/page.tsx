@@ -19,6 +19,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import AnimatedInput from "@/components/animations/animated-input"
 import TemplateSwitcher from "@/components/animations/template-switcher"
 import AISuggestion from "@/components/animations/ai-suggestion"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 
 import { 
   SavedResume,
@@ -42,8 +44,21 @@ import { generatePDF } from "@/lib/pdfGenerator";
 import { ResumeData } from "@/lib/types";
 
 export default function ResumeBuilder() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
   const searchParams = useSearchParams()
   const resumeId = searchParams.get('resumeId')
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/')
+    }
+  }, [user, loading, router])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user) {
+    return null
+  }
 
   const [activeTemplate, setActiveTemplate] = useState("modern")
   const [previewMode, setPreviewMode] = useState(false)

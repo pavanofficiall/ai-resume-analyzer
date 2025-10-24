@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import UploadSection from "@/app/ai-analyzer/components/upload-section"
@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { saveAnalysis } from "@/lib/historyStorage"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 
 import { pdfjs } from 'react-pdf';
 
@@ -59,7 +61,21 @@ interface ParsedResumeData {
 }
 
 export default function Home() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
   const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/')
+    }
+  }, [user, loading, router])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user) {
+    return null
+  }
+
   const [fileContent, setFileContent] = useState<string>("");
   const [jobDescription, setJobDescription] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);

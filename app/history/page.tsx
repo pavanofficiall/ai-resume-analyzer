@@ -8,13 +8,30 @@ import { FileText, Trash2, Clock, BarChart } from "lucide-react"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 
 export default function HistoryPage() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
   const [history, setHistory] = useState<ResumeHistory[]>([])
 
   useEffect(() => {
-    setHistory(getHistory())
-  }, [])
+    if (!loading && !user) {
+      router.push('/')
+    }
+  }, [user, loading, router])
+
+  useEffect(() => {
+    if (user) {
+      setHistory(getHistory())
+    }
+  }, [user])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user) {
+    return null
+  }
 
   const handleDelete = (id: string) => {
     deleteAnalysis(id)

@@ -19,6 +19,8 @@ import GlowingProgressRing from "@/components/animations/glowing-progress-ring"
 import TypingEffect from "@/components/animations/typing-effect"
 import { useSearchParams } from "next/navigation"
 import { pdfjs } from 'react-pdf';
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 
 // Initialize PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs';
@@ -138,6 +140,20 @@ const createAnalysisPrompt = (resumeText: string, jobDescription: string) => {
 };
 
 export default function ResumeAnalyzer() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/')
+    }
+  }, [user, loading, router])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user) {
+    return null
+  }
+
   const [file, setFile] = useState<File | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisComplete, setAnalysisComplete] = useState(false)

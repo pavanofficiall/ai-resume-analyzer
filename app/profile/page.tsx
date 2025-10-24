@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FileText, History, Settings, User } from "lucide-react"
 import { setUserDisplayName, getUserDisplayName } from "@/lib/localStorage"
+import { useRouter } from "next/navigation"
 
 // Dynamic imports to prevent hydration issues
 const Card = dynamic(() => import("@/components/ui/card").then(mod => mod.Card))
@@ -22,9 +23,21 @@ const TabsList = dynamic(() => import("@/components/ui/tabs").then(mod => mod.Ta
 const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(mod => mod.TabsTrigger))
 
 export default function ProfilePage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
+  const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
   const [displayName, setDisplayName] = useState("")
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/')
+    }
+  }, [user, loading, router])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user) {
+    return null
+  }
 
   useEffect(() => {
     // Initialize display name from local storage or user profile

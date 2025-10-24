@@ -9,13 +9,30 @@ import { FileText, Trash2, Calendar, Clock } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 
 export default function ResumesPage() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
   const [resumes, setResumes] = useState<SavedResume[]>([])
 
   useEffect(() => {
-    setResumes(getSavedResumes())
-  }, [])
+    if (!loading && !user) {
+      router.push('/')
+    }
+  }, [user, loading, router])
+
+  useEffect(() => {
+    if (user) {
+      setResumes(getSavedResumes())
+    }
+  }, [user])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user) {
+    return null
+  }
 
   const handleDelete = (id: string) => {
     deleteResume(id)

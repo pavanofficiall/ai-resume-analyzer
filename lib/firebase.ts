@@ -11,12 +11,12 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBweMM4XzkmXapjzsCi0hvw1nVBUI94l4M",
-  authDomain: "resumeai-8e80a.firebaseapp.com",
-  projectId: "resumeai-8e80a",
-  storageBucket: "resumeai-8e80a.firebasestorage.app",
-  messagingSenderId: "526007232881",
-  appId: "1:526007232881:web:4ce63636fd10a252d62ed0",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: "G-VVZGNBHRH5"
 };
 
@@ -29,8 +29,11 @@ export const emailSignIn = (email: string, password: string) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
 
-export const emailSignUp = (email: string, password: string) => {
-  return createUserWithEmailAndPassword(auth, email, password);
+export const emailSignUp = async (email: string, password: string, role: "student" | "hr" = "student") => {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  // Store role in localStorage for now (you can later move this to Firestore)
+  localStorage.setItem(`user_role_${userCredential.user.uid}`, role);
+  return userCredential;
 };
 
 export const googleSignIn = async () => {
