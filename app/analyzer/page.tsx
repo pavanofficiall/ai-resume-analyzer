@@ -189,7 +189,7 @@ const genAI = useRef(new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_K
 
   const analyzeWithGemini = async (fileContent: string, jobDesc: string) => {
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
       const prompt = createAnalysisPrompt(fileContent, jobDesc);
       
       // Update analysis steps

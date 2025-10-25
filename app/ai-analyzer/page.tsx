@@ -140,7 +140,7 @@ export default function Home() {
     const content = await readFileContent(file);
     
     // Use Gemini to parse and structure the resume content
-    const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
     const prompt = `Parse this resume content into a structured format:
     ${content}
 
@@ -215,7 +215,7 @@ export default function Home() {
 
     setIsAnalyzing(true);
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
       const prompt = `Analyze this resume against the job description. Focus on identifying specific strengths and requirements matching.
 
       RESUME:
