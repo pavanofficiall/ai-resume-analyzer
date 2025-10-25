@@ -1,8 +1,8 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '@/lib/firebase';
-import { User, signOut, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { User } from 'firebase/auth';
+import { onAuth, googleSignIn, logOut } from '@/lib/firebase';
 
 interface AuthContextType {
   user: User | null;
@@ -26,12 +26,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuth((user) => {
       setUser(user);
       if (user) {
         // Get role from localStorage
-        const userRole = localStorage.getItem(`user_role_${user.uid}`) as "student" | "hr" | null;
-        setRole(userRole || "student"); // Default to student for Google sign-ins
+        if (typeof window !== 'undefined') {
+          const userRole = localStorage.getItem(`user_role_${user.uid}`) as "student" | "hr" | null;
+          setRole(userRole || "student"); // Default to student for Google sign-ins
+        }
       } else {
         setRole(null);
       }
@@ -41,16 +43,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    // Set default role for Google sign-ins
-    localStorage.setItem(`user_role_${result.user.uid}`, "student");
-    setRole("student");
+    try {
+      const result = await googleSignIn();
+      // Set default role for Google sign-ins
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(`user_role_${result.user.uid}`, "student");
+      }
+      setRole("student");
+    } catch (error) {
+      console.error('Google sign in failed:', error);
+      throw error;
+    }
   };
 
   const logout = async () => {
-    await signOut(auth);
-    setRole(null);
+    try {
+      await logOut();
+      setRole(null);
+    } catch (error) {
+      console.error('Logout failed:', error);
+      throw error;
+    }
   };
 
   return (

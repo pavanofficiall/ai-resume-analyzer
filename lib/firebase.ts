@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -20,30 +20,71 @@ const firebaseConfig = {
   measurementId: "G-VVZGNBHRH5"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+// Lazy initialization of Firebase
+let app: any = null;
+let auth: any = null;
 
-// Authentication functions
+const initializeFirebase = () => {
+  if (!app && typeof window !== 'undefined') {
+    // Only initialize on client side
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+    } catch (error) {
+      console.warn('Firebase initialization failed:', error);
+      // Return null to prevent crashes
+      return null;
+    }
+  }
+  return auth;
+};
+
+// Export auth getter that initializes Firebase lazily
+export const getAuthInstance = () => {
+  if (!auth) {
+    auth = initializeFirebase();
+  }
+  return auth;
+};
+
+// Authentication functions with lazy initialization
 export const emailSignIn = (email: string, password: string) => {
-  return signInWithEmailAndPassword(auth, email, password);
+  const authInstance = getAuthInstance();
+  if (!authInstance) throw new Error('Firebase not initialized');
+  return signInWithEmailAndPassword(authInstance, email, password);
 };
 
 export const emailSignUp = async (email: string, password: string, role: "student" | "hr" = "student") => {
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const authInstance = getAuthInstance();
+  if (!authInstance) throw new Error('Firebase not initialized');
+  const userCredential = await createUserWithEmailAndPassword(authInstance, email, password);
   // Store role in localStorage for now (you can later move this to Firestore)
-  localStorage.setItem(`user_role_${userCredential.user.uid}`, role);
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(`user_role_${userCredential.user.uid}`, role);
+  }
   return userCredential;
 };
 
 export const googleSignIn = async () => {
+  const authInstance = getAuthInstance();
+  if (!authInstance) throw new Error('Firebase not initialized');
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider);
+  return signInWithPopup(authInstance, provider);
 };
 
-export const logOut = () => signOut(auth);
+export const logOut = () => {
+  const authInstance = getAuthInstance();
+  if (!authInstance) throw new Error('Firebase not initialized');
+  return signOut(authInstance);
+};
 
 // Export auth state observer
 export const onAuth = (callback: (user: User | null) => void) => {
-  return onAuthStateChanged(auth, callback);
+  const authInstance = getAuthInstance();
+  if (!authInstance) {
+    // If Firebase is not initialized, call callback with null immediately
+    callback(null);
+    return () => {};
+  }
+  return onAuthStateChanged(authInstance, callback);
 };
