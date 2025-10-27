@@ -51,13 +51,8 @@ export default function Header() {
       >
         <div className="container flex h-16 items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <div className="relative w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-primary-foreground font-bold">R</span>
-              <div className="absolute -right-1 -top-1 w-3 h-3 bg-primary-foreground rounded-full flex items-center justify-center">
-                <span className="text-[8px] text-primary font-bold">AI</span>
-              </div>
-            </div>
-            <span className="font-bold text-lg">ResumeAI</span>
+            <img src="/logo.jpg" alt="Resumind Logo" className="w-8 h-8" />
+            <span className="font-bold text-lg">Resumind by nexaworks</span>
           </div>
 
           {/* Desktop Navigation - hidden when isMobileView is true */}

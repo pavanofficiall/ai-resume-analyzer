@@ -9,7 +9,7 @@ interface AuthContextType {
   user: User | null;
   role: "student" | "hr" | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
+  signInWithGoogle: (role: "student" | "hr") => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -51,8 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           // - If HR user on student page: redirect to HR dashboard
           // - If student user on HR page: redirect to student page
           // - Otherwise, stay on current page
-          // Temporarily disable auth context redirects for debugging
-          /*
           const shouldRedirect = isOnHomePage || isOnAuthPage || 
                                 (finalRole === 'hr' && isOnStudentPage) || 
                                 (finalRole === 'student' && isOnHRPage);
@@ -70,9 +68,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (shouldRedirect) {
             const redirectPath = finalRole === 'hr' ? '/hrdashboard' : '/ai-analyzer';
             console.log("Auth context redirecting to:", redirectPath);
-            router.push(redirectPath);
+            // Use setTimeout to avoid hydration issues
+            setTimeout(() => router.push(redirectPath), 100);
           }
-          */
         }
       } else {
         setRole(null);
@@ -82,14 +80,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return unsubscribe;
   }, [router]);
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (role: "student" | "hr") => {
     try {
       const result = await googleSignIn();
-      // Set default role for Google sign-ins
+      // Store the selected role in localStorage
       if (typeof window !== 'undefined') {
-        localStorage.setItem(`user_role_${result.user.uid}`, "student");
+        localStorage.setItem(`user_role_${result.user.uid}`, role);
       }
-      setRole("student");
+      setRole(role);
     } catch (error) {
       console.error('Google sign in failed:', error);
       throw error;

@@ -3,4 +3,7 @@ export interface CandidateResult {
   fileName: string
   matchPercentage: number
   matchedKeywords: string[]
+  strengths?: string[]
+  weaknesses?: string[]
+  summary?: string
 }

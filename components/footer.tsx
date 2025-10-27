@@ -8,8 +8,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center mb-4">
-              <FileText className="h-8 w-8 text-brand-500" />
-              <span className="ml-2 text-xl font-bold text-white">ResumeAI</span>
+              <img src="/logo.jpg" alt="Resumind Logo" className="h-8 w-8" />
+              <span className="ml-2 text-xl font-bold text-white">Resumind by nexaworks</span>
             </div>
             <p className="text-gray-400 mb-4">
               Leverage the power of AI to build and optimize your resume for your dream job.
@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Resumind by nexaworks. All rights reserved.</p>
         </div>
       </div>
     </footer>

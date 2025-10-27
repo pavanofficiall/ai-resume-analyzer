@@ -12,30 +12,11 @@ import { motion } from "framer-motion"
 import TypingEffect from "@/components/animations/typing-effect"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
 
 export default function Home() {
   const { user, role } = useAuth()
-  const router = useRouter()
 
-  useEffect(() => {
-    // Only redirect if user is authenticated and we're not in the middle of a signup process
-    // The auth modal handles redirects after signup
-    if (user && role) {
-      const currentPath = window.location.pathname;
-      // Only redirect if we're still on the home page
-      if (currentPath === '/') {
-        if (role === "student") {
-          router.push("/ai-analyzer")
-        } else if (role === "hr") {
-          router.push("/hrdashboard")
-        }
-      }
-    }
-  }, [user, role, router])
-
-  // Don't render anything for authenticated users while redirecting
+  // Don't render anything for authenticated users - let auth context handle redirection
   if (user && role) {
     return null
   }
@@ -46,49 +27,202 @@ export default function Home() {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-brand-50 to-white dark:from-navy-900 dark:to-navy-950 py-20 px-4 transition-theme">
-          <div className="container mx-auto ">
-            <div className="flex flex-col md:flex-row items-center gap-12">
-              <div className="md:w-1/2 space-y-6">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-                  Build & Analyze Your Resume with <span className="text-brand-600 dark:text-brand-400">AI</span>
-                </h1>
-                <p className="text-lg text-muted-foreground">
-                  Leverage the power of AI to improve your resume with personalized feedback, ATS optimization, and
-                  professional templates to land your dream job.
-                </p>
-                <div className="flex flex-wrap gap-4 pt-4">
+        <section className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-blue-900/20 py-8 px-4 transition-theme overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.15)_1px,transparent_0)] bg-[length:20px_20px]"></div>
+          </div>
+
+          <div className="container mx-auto relative z-10">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              {/* Left Content */}
+              <motion.div
+                className="lg:w-1/2 space-y-8"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                {/* Badge */}
+                <motion.div
+                  className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                    ✨ Completely Free • AI-Powered • Industry Leading
+                  </span>
+                </motion.div>
+
+                {/* Main Heading */}
+                <motion.h1
+                  className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                >
+                  <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 dark:from-white dark:via-blue-100 dark:to-indigo-100 bg-clip-text text-transparent">
+                    Transform Your
+                  </span>
+                  <br />
+                  <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    Hiring & Career
+                  </span>
+                  <br />
+                  <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 dark:from-white dark:via-blue-100 dark:to-indigo-100 bg-clip-text text-transparent">
+                    Journey
+                  </span>
+                </motion.h1>
+
+                {/* Subheading */}
+                <motion.p
+                  className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed font-light"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
+                  The world's most advanced AI platform for job seekers and recruiters.
+                  Build stunning resumes, analyze candidates, and streamline your hiring process—all completely free.
+                </motion.p>
+
+                {/* Key Benefits */}
+                <motion.div
+                  className="flex flex-wrap gap-6 text-sm font-medium"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span>ATS-Optimized Resumes</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span>AI-Powered Analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span>Professional Templates</span>
+                  </div>
+                </motion.div>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-4 pt-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.7 }}
+                >
                   <Link href="/builder">
                     <Button
                       size="lg"
-                      className="bg-brand-600 hover:bg-brand-700 text-white dark:bg-brand-500 dark:hover:bg-brand-600 transition-colors"
+                      className="group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-8 py-4 text-lg font-semibold"
                     >
-                      Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                      🚀 Start Building Resume
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
                   <Link href="/ai-analyzer">
                     <Button
                       size="lg"
                       variant="outline"
-                      className="border-brand-600 text-brand-600 hover:bg-brand-50 dark:border-brand-400 dark:text-brand-400 dark:hover:bg-navy-800 transition-colors"
+                      className="group border-2 border-slate-300 hover:border-blue-500 text-slate-700 hover:text-blue-600 dark:border-slate-600 dark:text-slate-300 dark:hover:text-blue-400 dark:hover:border-blue-400 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-8 py-4 text-lg font-semibold bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm"
                     >
-                      Upload Resume
+                      📊 Analyze Resume
                     </Button>
                   </Link>
-                </div>
-              </div>
-              {/* Replace the hero section image div with this animated version */}
-              <div className="md:w-1/2">
-                <div className="relative">
-                      <div className="">
-                        <img
-                          src="https://i.postimg.cc/W34GrxtL/Screenshot-2025-04-12-at-8-09-42-AM.png"
-                          alt="Resume Builder Preview"
-                          className="w-[37rem] h-[32rem] rounded-2xl border-2 border-brand-200 shadow-lg transition-transform transform hover:scale-105"
-                        />
+                </motion.div>
+
+                {/* Social Proof */}
+                <motion.div
+                  className="flex items-center gap-6 pt-8 border-t border-slate-200 dark:border-slate-700"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                >
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div
+                        key={i}
+                        className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-indigo-500 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold"
+                      >
+                        {i}
                       </div>
+                    ))}
+                  </div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="font-semibold text-slate-900 dark:text-slate-100">50,000+ Users</div>
+                    <div>Joined this month</div>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Right Content - Hero Image */}
+              <motion.div
+                className="lg:w-1/2"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <div className="relative">
+                  {/* Floating Elements Above Image */}
+                  <div className="flex justify-center gap-4 mb-6">
+                    <motion.div
+                      className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 border border-slate-200 dark:border-slate-700"
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.0 }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">AI Analysis</span>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-lg p-4"
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.2 }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Award className="h-5 w-5" />
+                        <span className="text-sm font-semibold">Top Rated</span>
+                      </div>
+                    </motion.div>
+                  </div>
+
+                  {/* Main Image */}
+                  <motion.div
+                    className="relative z-10"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700">
+                      <img
+                        src="https://i.postimg.cc/W34GrxtL/Screenshot-2025-04-12-at-8-09-42-AM.png"
+                        alt="Resumind AI Resume Builder & Analyzer - Professional Resume Creation and HR Recruitment Tool"
+                        className="w-full h-auto max-w-lg mx-auto object-contain"
+                        style={{
+                          imageRendering: 'auto',
+                          WebkitFontSmoothing: 'antialiased',
+                          MozOsxFontSmoothing: 'grayscale'
+                        }}
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Floating Zap Icon */}
+                  <motion.div
+                    className="absolute top-1/2 -right-8 bg-white dark:bg-slate-800 rounded-full shadow-lg p-3 border border-slate-200 dark:border-slate-700"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 1.4 }}
+                  >
+                    <Zap className="h-6 w-6 text-yellow-500" />
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>

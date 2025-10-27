@@ -8,8 +8,8 @@ import { AuthProvider } from '@/contexts/auth-context'
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AI Resume Analyzer & Builder",
-  description: "Build and analyze your resume with AI to land your dream job",
+  title: "Resumind by nexaworks - AI Resume Analyzer & Builder",
+  description: "Build and analyze your resume with AI to land your dream job. Powered by nexaworks.",
     generator: 'v0.dev'
 }
 

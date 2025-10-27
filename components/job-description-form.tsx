@@ -24,7 +24,17 @@ export function JobDescriptionForm({ onAnalyze, onReset, isAnalyzing, hasResults
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFiles(Array.from(e.target.files))
+      const selectedFiles = Array.from(e.target.files)
+
+      // Limit to 10 files maximum
+      if (selectedFiles.length > 10) {
+        alert("You can only upload up to 10 resumes at a time. Please select fewer files.")
+        // Reset the input
+        e.target.value = ""
+        return
+      }
+
+      setFiles(selectedFiles)
     }
   }
 
@@ -83,7 +93,7 @@ export function JobDescriptionForm({ onAnalyze, onReset, isAnalyzing, hasResults
 
           {/* File Upload */}
           <div className="space-y-2">
-            <Label htmlFor="resume-upload">Upload Resumes</Label>
+            <Label htmlFor="resume-upload">Upload Resumes (Max 10 files)</Label>
             <div className="flex items-center gap-4">
               <label
                 htmlFor="resume-upload"
@@ -102,7 +112,7 @@ export function JobDescriptionForm({ onAnalyze, onReset, isAnalyzing, hasResults
                 className="sr-only"
               />
               <span className="text-sm text-muted-foreground">
-                {files.length > 0 ? `${files.length} file${files.length > 1 ? "s" : ""} selected` : "No files selected"}
+                {files.length > 0 ? `${files.length}/10 files selected` : "No files selected (max 10)"}
               </span>
             </div>
 
@@ -125,6 +135,13 @@ export function JobDescriptionForm({ onAnalyze, onReset, isAnalyzing, hasResults
                     </button>
                   </div>
                 ))}
+                {files.length === 10 && (
+                  <div className="rounded-md border border-yellow-200 bg-yellow-50 px-3 py-2 dark:border-yellow-800 dark:bg-yellow-950/20">
+                    <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                      Maximum limit reached (10 files). Remove files to add more.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
           </div>

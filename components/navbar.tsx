@@ -37,21 +37,12 @@ export default function Navbar() {
   const authContent = user ? (
     <ProfileDropdown user={user} />
   ) : (
-    <div className="flex items-center space-x-2">
-      <Button
-        variant="ghost"
-        onClick={() => setAuthModal("signin")}
-        className="text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400"
-      >
-        Sign In
-      </Button>
-      <Button
-        onClick={() => setAuthModal("signup")}
-        className="bg-brand-600 hover:bg-brand-700 text-white dark:bg-brand-500 dark:hover:bg-brand-600 transition-colors"
-      >
-        Sign Up
-      </Button>
-    </div>
+    <Button
+      onClick={() => setAuthModal("signin")}
+      className="bg-brand-600 hover:bg-brand-700 text-white dark:bg-brand-500 dark:hover:bg-brand-600 transition-colors"
+    >
+      Sign In
+    </Button>
   )
 
   return (
@@ -62,9 +53,9 @@ export default function Navbar() {
             <div className="flex items-center">
               <Link href="/" className="flex items-center">
                 <motion.div whileHover={{ rotate: [0, -10, 10, -10, 0] }} transition={{ duration: 0.5 }}>
-                  <FileText className="h-8 w-8 text-brand-600 dark:text-brand-400" />
+                  <img src="/logo.jpg" alt="Resumind Logo" className="h-8 w-8" />
                 </motion.div>
-                <span className="ml-2 text-xl font-bold text-foreground">ResumeAI</span>
+                <span className="ml-2 text-xl font-bold text-foreground">Resumind</span>
               </Link>
             </div>
 
@@ -162,27 +153,15 @@ export default function Navbar() {
                 {user ? (
                   <ProfileDropdown user={user} />
                 ) : (
-                  <div className="flex flex-col space-y-2">
-                    <Button
-                      variant="ghost"
-                      onClick={() => {
-                        setAuthModal("signin")
-                        setIsMenuOpen(false)
-                      }}
-                      className="justify-start text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400"
-                    >
-                      Sign In
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setAuthModal("signup")
-                        setIsMenuOpen(false)
-                      }}
-                      className="justify-start bg-brand-600 hover:bg-brand-700 text-white dark:bg-brand-500 dark:hover:bg-brand-600"
-                    >
-                      Sign Up
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={() => {
+                      setAuthModal("signin")
+                      setIsMenuOpen(false)
+                    }}
+                    className="justify-start bg-brand-600 hover:bg-brand-700 text-white dark:bg-brand-500 dark:hover:bg-brand-600"
+                  >
+                    Sign In
+                  </Button>
                 )}
               </div>
             </div>
