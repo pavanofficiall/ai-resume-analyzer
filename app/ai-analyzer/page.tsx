@@ -61,21 +61,9 @@ interface ParsedResumeData {
 }
 
 export default function Home() {
-  const { user, loading } = useAuth()
+  const { user, loading, role } = useAuth()
   const router = useRouter()
   const [file, setFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/')
-    }
-  }, [user, loading, router])
-
-  // Show loading or redirect while checking authentication
-  if (loading || !user) {
-    return null
-  }
-
   const [fileContent, setFileContent] = useState<string>("");
   const [jobDescription, setJobDescription] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -83,6 +71,21 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [parsedResumeData, setParsedResumeData] = useState<ParsedResumeData | null>(null);
   const genAI = useRef(new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!));
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/')
+      } else if (role === 'hr') {
+        router.push('/hrdashboard')
+      }
+    }
+  }, [user, loading, role, router])
+
+  // Show loading or redirect while checking authentication
+  if (loading || !user || role === 'hr') {
+    return null
+  }
 
   // Handle file upload and read content
   const handleFileUpload = async (uploadedFile: File | null, content?: string) => {
@@ -140,7 +143,7 @@ export default function Home() {
     const content = await readFileContent(file);
     
     // Use Gemini to parse and structure the resume content
-    const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
     const prompt = `Parse this resume content into a structured format:
     ${content}
 
@@ -215,7 +218,7 @@ export default function Home() {
 
     setIsAnalyzing(true);
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
       const prompt = `Analyze this resume against the job description. Focus on identifying specific strengths and requirements matching.
 
       RESUME:

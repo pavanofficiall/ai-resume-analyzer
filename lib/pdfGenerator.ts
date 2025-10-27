@@ -1,8 +1,9 @@
-import html2pdf from 'html2pdf.js';
-
 export async function generatePDF(elementId: string, fileName: string = 'resume.pdf'): Promise<void> {
   const element = document.getElementById(elementId);
   if (!element) throw new Error('Element not found');
+
+  // Dynamically import html2pdf to avoid SSR issues
+  const html2pdf = (await import('html2pdf.js')).default;
 
   const options = {
     margin: 10,

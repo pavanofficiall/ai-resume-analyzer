@@ -20,12 +20,17 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
+    // Only redirect if user is authenticated and we're not in the middle of a signup process
+    // The auth modal handles redirects after signup
     if (user && role) {
-      // Redirect authenticated users to their respective dashboards
-      if (role === "student") {
-        router.push("/analyzer")
-      } else if (role === "hr") {
-        router.push("/hrdashboard")
+      const currentPath = window.location.pathname;
+      // Only redirect if we're still on the home page
+      if (currentPath === '/') {
+        if (role === "student") {
+          router.push("/ai-analyzer")
+        } else if (role === "hr") {
+          router.push("/hrdashboard")
+        }
       }
     }
   }, [user, role, router])
@@ -61,7 +66,7 @@ export default function Home() {
                       Get Started <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
-                  <Link href="/analyzer">
+                  <Link href="/ai-analyzer">
                     <Button
                       size="lg"
                       variant="outline"

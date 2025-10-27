@@ -60,7 +60,9 @@ export const emailSignUp = async (email: string, password: string, role: "studen
   const userCredential = await createUserWithEmailAndPassword(authInstance, email, password);
   // Store role in localStorage for now (you can later move this to Firestore)
   if (typeof window !== 'undefined') {
-    localStorage.setItem(`user_role_${userCredential.user.uid}`, role);
+    const storageKey = `user_role_${userCredential.user.uid}`;
+    localStorage.setItem(storageKey, role);
+    console.log("Stored role in localStorage:", storageKey, "=", role);
   }
   return userCredential;
 };

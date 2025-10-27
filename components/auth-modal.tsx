@@ -11,6 +11,7 @@ import { motion } from "framer-motion"
 import { emailSignIn, emailSignUp, googleSignIn } from "@/lib/firebase"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 interface AuthModalProps {
   isOpen: boolean
@@ -26,6 +27,7 @@ export function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [role, setRole] = useState<"student" | "hr">("student")
   const { user } = useAuth()
+  const router = useRouter()
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,10 +52,21 @@ export function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
         await emailSignIn(email, password)
         toast.success("Signed in successfully!")
       } else {
+        console.log("Signing up with role:", role);
         await emailSignUp(email, password, role)
         toast.success("Account created successfully!")
       }
-      onClose()
+      
+      // Redirect based on role after successful authentication
+      if (mode === "signup") {
+        // For signup, redirect based on selected role
+        const redirectPath = role === "hr" ? "/hrdashboard" : "/ai-analyzer";
+        console.log("Signup redirect:", role, "->", redirectPath);
+        onClose(); // Close modal first
+        setTimeout(() => router.push(redirectPath), 100); // Then redirect
+      } else {
+        onClose(); // For signin, just close modal
+      }
     } catch (error: any) {
       toast.error(error.message || "Authentication failed")
     } finally {
@@ -66,6 +79,10 @@ export function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
     try {
       await googleSignIn()
       toast.success("Signed in with Google successfully!")
+      
+      // Redirect to default student page for Google sign-ins
+      console.log("Google auth redirect to /ai-analyzer");
+      router.push("/ai-analyzer")
       onClose()
     } catch (error: any) {
       toast.error(error.message || "Google authentication failed")

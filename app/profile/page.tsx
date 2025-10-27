@@ -23,7 +23,7 @@ const TabsList = dynamic(() => import("@/components/ui/tabs").then(mod => mod.Ta
 const TabsTrigger = dynamic(() => import("@/components/ui/tabs").then(mod => mod.TabsTrigger))
 
 export default function ProfilePage() {
-  const { user, loading } = useAuth()
+  const { user, loading, role } = useAuth()
   const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
   const [displayName, setDisplayName] = useState("")

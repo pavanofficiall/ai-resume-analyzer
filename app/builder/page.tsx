@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { Save, Download, Eye, EyeOff, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -22,7 +21,7 @@ import AISuggestion from "@/components/animations/ai-suggestion"
 import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
 
-import { 
+import {
   SavedResume,
   createNewResume,
   getCurrentResume,
@@ -43,20 +42,25 @@ import { useSearchParams } from 'next/navigation'
 import { generatePDF } from "@/lib/pdfGenerator";
 import { ResumeData } from "@/lib/types";
 
-export default function ResumeBuilder() {
-  const { user, loading } = useAuth()
+function ResumeBuilderContent() {
+  const { user, loading, role } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const resumeId = searchParams.get('resumeId')
 
+  // Check authentication and role
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/')
+    if (!loading) {
+      if (!user) {
+        router.push('/')
+      } else if (role === 'hr') {
+        router.push('/hrdashboard')
+      }
     }
-  }, [user, loading, router])
+  }, [user, loading, role, router])
 
-  // Show loading or redirect while checking authentication
-  if (loading || !user) {
+  // Show loading or redirect
+  if (loading || !user || role === 'hr') {
     return null
   }
 
@@ -813,5 +817,13 @@ export default function ResumeBuilder() {
 
       <Footer />
     </div>
+  )
+}
+
+export default function ResumeBuilder() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResumeBuilderContent />
+    </Suspense>
   )
 }

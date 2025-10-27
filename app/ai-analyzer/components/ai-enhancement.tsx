@@ -88,7 +88,7 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
       const prompt = `As a professional resume writer, enhance this ${activeTab} section to be more impactful and ATS-friendly.
 
       Current content:
@@ -201,7 +201,7 @@ export default function AiEnhancement({ result, onEnhance }: AiEnhancementProps)
     setNewMessage("");
 
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
       const prompt = `As a professional resume expert, provide structured advice.
       
       Previous conversation:

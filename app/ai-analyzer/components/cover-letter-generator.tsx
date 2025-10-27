@@ -60,7 +60,7 @@ export default function CoverLetterGenerator({ resumeData, jobDescription }: Cov
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
       const prompt = `Create a professional cover letter with the following details:
 
       Company: ${formData.company}

@@ -38,7 +38,7 @@ export default function Footer() {
             <h3 className="text-white text-lg font-semibold mb-4">Product</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/analyzer" className="text-gray-400 hover:text-brand-500 transition-colors">
+                <Link href="/ai-analyzer" className="text-gray-400 hover:text-brand-500 transition-colors">
                   Resume Analyzer
                 </Link>
               </li>

@@ -16,6 +16,8 @@ export default function Navbar() {
   const [authModal, setAuthModal] = useState<"signin" | "signup" | null>(null)
   const { user, role } = useAuth()
 
+  console.log("Navbar - Auth state:", { user: !!user, role })
+
   const handleAuth = async () => {
     try {
       if (user) {
@@ -77,7 +79,7 @@ export default function Navbar() {
               ) : role === "student" ? (
                 <>
                   <Link
-                    href="/analyzer"
+                    href="/ai-analyzer"
                     className="text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
                   >
                     Resume Analyzer
@@ -130,7 +132,7 @@ export default function Navbar() {
               ) : role === "student" ? (
                 <>
                   <Link
-                    href="/analyzer"
+                    href="/ai-analyzer"
                     className="block text-muted-foreground hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >

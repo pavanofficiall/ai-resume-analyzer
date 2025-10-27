@@ -142,6 +142,17 @@ const createAnalysisPrompt = (resumeText: string, jobDescription: string) => {
 export default function ResumeAnalyzer() {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const [file, setFile] = useState<File | null>(null)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [analysisComplete, setAnalysisComplete] = useState(false)
+  const [atsScore, setAtsScore] = useState(0)
+  const searchParams = useSearchParams()
+  const [jobDescription, setJobDescription] = useState<string>("");
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const genAI = useRef(new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!));
+  const [analysisSteps, setAnalysisSteps] = useState<string[]>([])
+  const [currentAnalysisStep, setCurrentAnalysisStep] = useState(0)
+  const [resumeTitle, setResumeTitle] = useState("")
 
   useEffect(() => {
     if (!loading && !user) {
@@ -153,20 +164,6 @@ export default function ResumeAnalyzer() {
   if (loading || !user) {
     return null
   }
-
-  const [file, setFile] = useState<File | null>(null)
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [analysisComplete, setAnalysisComplete] = useState(false)
-  const [atsScore, setAtsScore] = useState(0)
-  const searchParams = useSearchParams()
-const [jobDescription, setJobDescription] = useState<string>("");
-const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
-const genAI = useRef(new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!));
-
-  // Add these state variables after the existing ones
-  const [analysisSteps, setAnalysisSteps] = useState<string[]>([])
-  const [currentAnalysisStep, setCurrentAnalysisStep] = useState(0)
-  const [resumeTitle, setResumeTitle] = useState("")
 
   // Check if we're re-analyzing an existing resume
   useEffect(() => {
@@ -189,7 +186,7 @@ const genAI = useRef(new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_K
 
   const analyzeWithGemini = async (fileContent: string, jobDesc: string) => {
     try {
-      const model = genAI.current.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAI.current.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
       const prompt = createAnalysisPrompt(fileContent, jobDesc);
       
       // Update analysis steps

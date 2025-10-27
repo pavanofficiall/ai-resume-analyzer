@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const { section, content, suggestions, keywords } = await request.json();
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
 
     const prompt = `Enhance this resume ${section} section to be more impactful and ATS-friendly.
     

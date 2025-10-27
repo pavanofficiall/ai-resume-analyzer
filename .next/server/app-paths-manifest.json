@@ -1,14 +1,4 @@
 {
-  "/api/enhance-resume/route": "app/api/enhance-resume/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/ai-analyzer/page": "app/ai-analyzer/page.js",
-  "/analyzer/page": "app/analyzer/page.js",
-  "/auth/page": "app/auth/page.js",
-  "/builder/page": "app/builder/page.js",
-  "/history/[id]/page": "app/history/[id]/page.js",
-  "/history/page": "app/history/page.js",
   "/hrdashboard/page": "app/hrdashboard/page.js",
-  "/page": "app/page.js",
-  "/profile/page": "app/profile/page.js",
-  "/resumes/page": "app/resumes/page.js"
+  "/page": "app/page.js"
 }
